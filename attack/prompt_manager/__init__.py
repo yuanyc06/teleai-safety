@@ -1,0 +1,5 @@
+# from .prefix_prompt_manager import PrefixPromptManager
+# from .vanilla_prompt_manager import VanillaPromptManager
+from prompt_manager.vanilla_prompt_manager import VanillaPromptManager
+from prompt_manager.prefix_prompt_manager import PrefixPromptManager
+from prompt_manager.prefix_prompt_manager import GCGAttackPrompt, ModelWorker
