@@ -1,0 +1,20 @@
+ag_names:
+  - GPTScorer
+  - DSR1Scorer
+  - LLama3Scorer
+  - GrokScorer
+api_mapping:
+  GPTScorer: get_res_gpt4
+  DSR1Scorer: get_res_dsr1
+  LLama3Scorer: get_res_llama3
+  GrokScorer: get_res_grok
+config_mapping:
+  GemmaScorer: ./config/gemma_scorer.yaml
+gpu_mapping:
+  GemmaScorer: 0
+roles:
+  - Safety Criterion Auditor
+  - Vulnerability Detector
+  - Counterargument Critic
+  - Holistic Arbiter
+num_rounds: 3

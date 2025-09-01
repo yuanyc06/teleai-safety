@@ -1,0 +1,2 @@
+model_path: google/gemma-3-1b-it
+device: cuda:0

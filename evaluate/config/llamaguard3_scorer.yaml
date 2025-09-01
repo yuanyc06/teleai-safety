@@ -1,0 +1,2 @@
+model_path: "Tina-xxxx/Llama-Guard-3-8B"
+device: "cuda:0"

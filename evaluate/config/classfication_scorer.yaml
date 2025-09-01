@@ -1,0 +1,2 @@
+model_path: hubert233/GPTFuzz
+device: cuda:0

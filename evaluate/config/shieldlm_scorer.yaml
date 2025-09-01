@@ -1,0 +1,6 @@
+model_path: "thu-coai/ShieldLM-7B-internlm2"
+model_base: "internlm"
+tokenizer_path: "thu-coai/ShieldLM-7B-internlm2"
+lang: "en"
+max_new_tokens: 1024
+device: "cuda:0"

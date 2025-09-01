@@ -1,0 +1,2 @@
+model_path: "cais/HarmBench-Llama-2-13b-cls"
+device: "cuda:0"
