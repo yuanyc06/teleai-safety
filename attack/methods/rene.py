@@ -382,11 +382,6 @@ class ReneManager(BaseAttackManager):
 
             # 2) optionally evaluate harmfulness - but we do NOT use this label in saved JSON
             label = self.evaluator.evaluate_harmfulness(rewritten) if self.evaluator else None
-            # If judged harmful immediately, we can optionally skip - here we still proceed to attack generation
-            # (if you want to skip judged-harmful, uncomment next lines)
-            # if label == "1":
-            #     self._append_result_minimal(idx, harm_behavior, rewritten, "[Skipped due to judge=1]")
-            #     continue
 
             # 3) nest into scenario
             nested = self._nest_scenario(rewritten)

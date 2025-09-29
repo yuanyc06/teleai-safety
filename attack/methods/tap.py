@@ -364,25 +364,11 @@ class TAPManager(BaseAttackManager):
                         print("New dataset is empty after constraint. Skipping iteration.")
                         continue
                     
-                  #   # self.target_model.conversation.messages = []
-                  #   # 兼容 Vicuna / Qwen / DeepSeek 等
-                  #   if hasattr(self.target_model, "conversation") and hasattr(self.target_model.conversation, "messages"):
-                  #       self.target_model.conversation.messages = []
-                  #   elif hasattr(self.target_model, "history"):
-                  #       self.target_model.history = []
-                  #   elif hasattr(self.target_model, "chat_history"):
-                  #       self.target_model.chat_history = []
-                  #   # elif hasattr(self.target_model, "chat"):
-                  #   #     self.target_model.chat = []
-                  #   else:
-                  #       logger.info("No conversation history to reset for this model.")
 
                     
                     
                     for ex in new_dataset:
-                        # ---------- 统一通过 chat 接口获取响应 ----------
                         try:
-                            # 假设 load_model 返回的对象都实现了 .chat(prompt) 接口
                             ex.target_responses = [ self.target_model.chat(ex.jailbreak_prompt) ]
                         except Exception as e:
                             logger.warning(f"Target model chat failed: {e}")
@@ -548,25 +534,11 @@ class TAPManager(BaseAttackManager):
                               if is_success:
                                     ex.eval_results[-1] = 100
                               self.data.find_flag = True
-                              print("找到越狱提示。退出。")
                               break
                         except Exception as e:
-                              logger.error(f"评分失败: {e}")
+                              logger.error(f"Failed: {e}")
                               continue
 
-                  # if self.data.find_flag:
-                  #       new_example = max(new_dataset, key=lambda ex: ex.eval_results[-1] if ex.eval_results else 0)
-                  #       new_example.eval_results = [1]
-                  #       self.log({
-                  #             'example_idx': example_idx,
-                  #             'Tree-depth': iteration,
-                  #             'success': True,
-                  #             'jailbreak_prompt': new_example.jailbreak_prompt,
-                  #             'query': new_example.query,
-                  #             'response': new_example.target_responses,
-                  #             }, save=True)
-                  #       self.current_jailbreak += 1
-                  #       break
                   new_example = max(new_dataset, key=lambda ex: ex.eval_results[-1] if ex.eval_results else 0)
                   new_example.eval_results = [1]
                   self.log({
@@ -580,20 +552,16 @@ class TAPManager(BaseAttackManager):
             # 处理最终结果
             if self.data.iteration == self.config.tree_depth:
                   if not new_dataset:
-                        logger.warning("[Warning] 最终迭代时数据集为空，跳过此样本。")
+                        logger.warning("[Warning] Skip.")
                         continue
                   new_example = max(new_dataset, key=lambda ex: ex.eval_results[-1] if ex.eval_results else 0)
                   new_example.eval_results = [0]
 
-      # # 计算攻击成功率
-      # asr = 100 * self.current_jailbreak / len(self.data.attack_dataset)
-      # print(f"ASR: {asr}%")
       logger.info("Jailbreak finished!")
       logger.info('Jailbreak result saved at {}'.format(
             os.path.join(os.path.dirname(os.path.abspath(__file__)), self.config.res_save_path)
       ))
 
-      # 返回结果
       if self.data.find_flag:
             return new_example.jailbreak_prompt
       else:

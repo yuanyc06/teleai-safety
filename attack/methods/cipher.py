@@ -128,66 +128,6 @@ def _normalize_resp(raw):
         return ""
 
 
-# def _safe_chat_call(model, messages_or_prompt):
-#     """
-#     Try several invocation patterns for model.chat and return normalized text + raw.
-#     - messages_or_prompt: messages list or a plain string
-#     """
-#     raw = None
-#     text = ""
-
-#     # 1) try calling with messages (API-style)
-#     try:
-#         raw = model.chat(messages_or_prompt)
-#         text = _normalize_resp(raw)
-#         if text:
-#             return text, raw
-#     except Exception as e:
-#         logger.debug(f"chat(messages) failed: {e}")
-
-#     # 2) try plain string
-#     try:
-#         prompt = None
-#         if isinstance(messages_or_prompt, list):
-#             # get last user content or join contents
-#             for m in reversed(messages_or_prompt):
-#                 if isinstance(m, dict) and m.get("role") == "user" and "content" in m:
-#                     prompt = m["content"]
-#                     break
-#             if prompt is None:
-#                 prompt = " ".join([m.get("content", "") for m in messages_or_prompt if isinstance(m, dict)])
-#         elif isinstance(messages_or_prompt, str):
-#             prompt = messages_or_prompt
-
-#         if prompt is not None:
-#             raw = model.chat(prompt)
-#             text = _normalize_resp(raw)
-#             if text:
-#                 return text, raw
-#     except Exception as e:
-#         logger.debug(f"chat(string) failed: {e}")
-
-#     # 3) try dict payloads if above failed
-#     try:
-#         try_payloads = []
-#         if not isinstance(messages_or_prompt, dict):
-#             try_payloads = [{"messages": messages_or_prompt}, {"prompt": messages_or_prompt}]
-#         else:
-#             try_payloads = [messages_or_prompt]
-#         for payload in try_payloads:
-#             try:
-#                 raw = model.chat(payload)
-#                 text = _normalize_resp(raw)
-#                 if text:
-#                     return text, raw
-#             except Exception:
-#                 continue
-#     except Exception:
-#         pass
-
-#     # fallback to whatever normalized raw we have (may be empty)
-#     return _normalize_resp(raw), raw
-
 def _safe_chat_call(model, messages_or_prompt):
     return model.chat(messages_or_prompt)
 
@@ -196,10 +136,6 @@ def _safe_chat_call(model, messages_or_prompt):
 # -------------------------
 class CipherInit:
     def __init__(self):
-        # These helpers must be defined in your codebase (kept from original)
-        # PopulationInitializer builds the population dataset
-        # InitTemplates provides templates mapping for cipher types
-        # encode_expert_dict is a dict mapping cipher_type -> expert instance with encode/decode methods
         try:
             self._encode_expert_dict = encode_expert_dict
             self._population_initer = PopulationInitializer()
@@ -223,13 +159,6 @@ class CipherInit:
             config=config
         )
 
-      #   # if tokenizer is needed for downstream operations and a path exists, keep it (optional)
-      #   if getattr(config, "target_tokenizer_path", None):
-      #       try:
-      #           from transformers import AutoTokenizer
-      #           data.tokenizer = AutoTokenizer.from_pretrained(config.target_tokenizer_path)
-      #       except Exception:
-      #           data.tokenizer = None
 
     def init_manager_for_mutate(self, data: AttackData):
         data.templates = self._template_initer.get_templates('cipher', 1)[0]

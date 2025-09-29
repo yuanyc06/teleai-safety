@@ -74,49 +74,6 @@ if samplers_mod is not None and not hasattr(samplers_mod, "SumSegmentTreeFp32"):
         )
 
 
-# """
-# Refactored advprompter training/eval workspace.
-# Key changes:
-# - Unified model loading via load_model(...)
-# - Config as dataclasses
-# - main() entry like other attack scripts
-# - Minimal invasive changes to training/eval logic; keeps calls to project helpers:
-#   get_dataloader, evaluate_prompt, Seq, MergedSeq, Metrics, PrioritizedSampler, ReplayBuffer, etc.
-# """
-
-# import os
-# import re
-# import time
-# import json
-# import warnings
-# import logging
-# import numpy as np
-# from copy import copy
-# from copy import deepcopy
-# from dataclasses import dataclass, field, fields
-# from typing import List, Optional, Dict, Any, Union
-# from collections import defaultdict
-# from tqdm import tqdm
-
-# import torch
-# import pytorch_lightning as pl
-
-# try:
-#     from utils import parse_arguments, ConfigManager
-#     from dataset import get_dataloader, AttackDataset
-#     from models import load_model
-#     from evaluation import PatternScorer
-#     from evaluation import check_jailbroken, evaluate_prompt, check_affirmative
-#     # Seq, MergedSeq, Metrics, PrioritizedSampler, ReplayBuffer, ListStorage assumed to be in your project
-#     # from sequence_utils import Seq, MergedSeq
-#     # from metrics import Metrics
-#     # from replay import PrioritizedSampler, ReplayBuffer, ListStorage
-#     from initialization import InitTemplates
-# except Exception:
-#     pass
-
-# logger = logging.getLogger(__name__)
-# logging.basicConfig(level=logging.INFO)
 
 
 column_names = [
